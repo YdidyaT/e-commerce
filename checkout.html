@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <style>
+    .checkout-container {
+      max-width: 600px;
+      margin: 50px auto;
+    }
+    img {
+      max-width: 100%;
+    }
+    .quantity-box {
+      width: 80px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container checkout-container">
+  <h1 class="text-center mb-4">Checkout</h1>
+  
+  <!-- Product info row -->
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <!-- Product Image -->
+        <div class="col-md-6 text-center mb-3">
+          <img id="productImage" src="#" alt="Product" class="img-fluid">
+        </div>
+        <!-- Info / Quantity / Total -->
+        <div class="col-md-6">
+          <h4 id="productName"></h4>
+          <p>Price: $<span id="productPrice"></span></p>
+          
+          <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input 
+              type="number" 
+              class="form-control quantity-box" 
+              id="quantity" 
+              value="1" 
+              min="1"
+            >
+          </div>
+          <h5>Total: $<span id="totalPrice"></span></h5>
+          <hr>
+          <button class="btn btn-success" id="confirmPurchaseBtn">Confirm Purchase</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 1) Grab query parameters
+const urlParams = new URLSearchParams(window.location.search);
+const productName = urlParams.get('product') || 'Unknown Product';
+const productPrice = parseFloat(urlParams.get('price')) || 0;
+const productImage = urlParams.get('image') || '';
+
+// 2) Populate the page with that data
+document.getElementById('productName').textContent = productName;
+document.getElementById('productPrice').textContent = productPrice.toFixed(2);
+document.getElementById('productImage').src = productImage;
+
+// 3) Calculate total price when quantity changes
+const quantityInput = document.getElementById('quantity');
+const totalPriceSpan = document.getElementById('totalPrice');
+
+function updateTotal() {
+  const qty = parseInt(quantityInput.value, 10) || 1;
+  totalPriceSpan.textContent = (qty * productPrice).toFixed(2);
+}
+
+// Trigger calculation on page load and whenever quantity changes
+quantityInput.addEventListener('input', updateTotal);
+updateTotal();
+
+// 4) Just a simple example for "Confirm Purchase" button
+document.getElementById('confirmPurchaseBtn').addEventListener('click', function(){
+  alert('Purchase confirmed for ' + productName + '!');
+});
+</script>
+
+</body>
+</html>
