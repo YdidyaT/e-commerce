@@ -2,109 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Product Detail</title>
-  <!-- Add Bootstrap CSS if you want similar styling -->
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-  >
+  <title>Checkout</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <style>
-    /* Some optional quick styling */
-    body {
-      margin: 2rem;
+    .checkout-container {
+      max-width: 600px;
+      margin: 50px auto;
     }
-    .product-image {
-      max-width: 300px;
-      height: auto;
+    img {
+      max-width: 100%;
     }
-    .total-price {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: #d9534f; /* optional color styling */
+    .quantity-box {
+      width: 80px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1 id="productName">Product Name</h1>
-    <div class="row">
-      <div class="col-md-4">
-        <!-- Product Image -->
-        <img 
-          id="productImage" 
-          src="#" 
-          alt="Product Image" 
-          class="product-image img-fluid"
-        >
-      </div>
-      
-      <div class="col-md-8">
-        <!-- Product Price and Quantity -->
-        <p>
-          <strong>Unit Price:</strong> $<span id="unitPrice">0</span>
-        </p>
-        
-        <div class="form-group">
-          <label for="quantity">Quantity:</label>
-          <input 
-            type="number" 
-            id="quantity" 
-            class="form-control"
-            value="1" 
-            min="1" 
-            style="width: 100px;"
-          >
-        </div>
 
-        <!-- Total Price -->
-        <p class="total-price">
-          <strong>Total:</strong> $<span id="totalPrice">0</span>
-        </p>
+<div class="container checkout-container">
+  <h1 class="text-center mb-4">Checkout</h1>
+  
+  <!-- Product info row -->
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <!-- Product Image -->
+        <div class="col-md-6 text-center mb-3">
+          <img id="productImage" src="#" alt="Product" class="img-fluid">
+        </div>
+        <!-- Info / Quantity / Total -->
+        <div class="col-md-6">
+          <h4 id="productName"></h4>
+          <p>Price: $<span id="productPrice"></span></p>
+          
+          <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input 
+              type="number" 
+              class="form-control quantity-box" 
+              id="quantity" 
+              value="1" 
+              min="1"
+            >
+          </div>
+          <h5>Total: $<span id="totalPrice"></span></h5>
+          <hr>
+          <button class="btn btn-success" id="confirmPurchaseBtn">Confirm Purchase</button>
+        </div>
       </div>
     </div>
-    
-    <!-- A 'Confirm Purchase' or 'Add to Cart' button could go here -->
-    <button class="btn btn-primary">Proceed to Checkout</button>
   </div>
+</div>
 
-  <!-- Optionally load Bootstrap's JS for styling or form enhancements -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-  ></script>
-  <script
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-  ></script>
+<script>
+// 1) Grab query parameters
+const urlParams = new URLSearchParams(window.location.search);
+const productName = urlParams.get('product') || 'Unknown Product';
+const productPrice = parseFloat(urlParams.get('price')) || 0;
+const productImage = urlParams.get('image') || '';
 
-  <script>
-    // 1. Get the full query string, e.g. "?product=Datflip%20Esp32&price=999&image=phone-2.png"
-    const params = new URLSearchParams(window.location.search);
-    
-    // 2. Extract our custom parameters
-    const productName = params.get('product'); // "Datflip Esp32 S3 Dev Board"
-    const productPrice = parseFloat(params.get('price')); // 999
-    const productImage = params.get('image'); // "phone-2.png"
+// 2) Populate the page with that data
+document.getElementById('productName').textContent = productName;
+document.getElementById('productPrice').textContent = productPrice.toFixed(2);
+document.getElementById('productImage').src = productImage;
 
-    // 3. Update HTML Elements
-    document.getElementById('productName').textContent = productName;
-    document.getElementById('unitPrice').textContent = productPrice.toFixed(2);
-    document.getElementById('productImage').src = 'images/phone/' + productImage;
+// 3) Calculate total price when quantity changes
+const quantityInput = document.getElementById('quantity');
+const totalPriceSpan = document.getElementById('totalPrice');
 
-    // 4. Calculate total when quantity changes
-    const quantityInput = document.getElementById('quantity');
-    const totalPriceSpan = document.getElementById('totalPrice');
+function updateTotal() {
+  const qty = parseInt(quantityInput.value, 10) || 1;
+  totalPriceSpan.textContent = (qty * productPrice).toFixed(2);
+}
 
-    function updateTotal() {
-      const quantityValue = parseInt(quantityInput.value, 10) || 1;
-      const total = quantityValue * productPrice;
-      totalPriceSpan.textContent = total.toFixed(2);
-    }
+// Trigger calculation on page load and whenever quantity changes
+quantityInput.addEventListener('input', updateTotal);
+updateTotal();
 
-    // Run once on page load to set initial total
-    updateTotal();
+// 4) Just a simple example for "Confirm Purchase" button
+document.getElementById('confirmPurchaseBtn').addEventListener('click', function(){
+  alert('Purchase confirmed for ' + productName + '!');
+});
+</script>
 
-    // Listen for user changes
-    quantityInput.addEventListener('input', updateTotal);
-  </script>
 </body>
 </html>
