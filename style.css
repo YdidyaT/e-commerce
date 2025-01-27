@@ -247,3 +247,31 @@ footer {
       background: #333;
     }
   }
+
+  .modal-content {
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-title {
+    font-weight: bold;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+#checkoutForm .form-control {
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+#checkoutForm .form-control:focus {
+    border-color: #e67e22;
+    box-shadow: 0 0 5px rgba(230, 126, 34, 0.5);
+}
