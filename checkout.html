@@ -1,158 +1,81 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Fav Icon -->
-    <link rel="icon" href="images/logo.png" type="image/gif" sizes="16x16">
-    <!-- Google fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9GzS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-          crossorigin="anonymous">
-    <!-- Main css (same as your index) -->
-    <link rel="stylesheet" href="style.css">
-    <title>Checkout - Procon Systems Gmbh</title>
-
-    <style>
-        /* You can add extra CSS for the checkout page here if needed */
-        .checkout-container {
-            max-width: 800px;
-            margin: 50px auto;
-        }
-        .quantity-box {
-            width: 70px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Checkout</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+    img {
+      max-width: 200px;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .product-details {
+      margin-bottom: 1rem;
+    }
+  </style>
 </head>
-
 <body>
-    <!-- HEADER/Nav at top (outside main) -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light fill">
-            <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt=""></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+  <h1>Checkout</h1>
+  
+  <div class="product-details">
+    <img id="productImage" alt="Product Image" />
+    <h2 id="productTitle"></h2>
+    <p>Price: $<span id="productPrice"></span></p>
+  </div>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Product</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">About Us</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Contact Us</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-    <!-- END HEADER -->
+  <div>
+    <label for="quantity">Quantity: 
+      <input type="number" id="quantity" name="quantity" value="1" min="1" style="width:50px;">
+    </label>
+  </div>
 
-    <main class="container">
+  <div>
+    <p>Trade ID: <strong id="tradeId"></strong></p>
+    <p>Total: $<strong id="totalPrice"></strong></p>
+  </div>
 
-        <!-- CHECKOUT CONTENT -->
-        <section class="checkout-container">
-            <h2 class="text-center mt-4 mb-5">Checkout</h2>
-
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <!-- Product Image -->
-                        <div class="col-md-6">
-                            <img id="productImage" src="" alt="Product" class="img-fluid">
-                        </div>
-
-                        <!-- Product Info -->
-                        <div class="col-md-6">
-                            <h4 id="productName"></h4>
-                            <p>Price: $<span id="productPrice"></span></p>
-
-                            <div class="form-group">
-                                <label for="quantity">Quantity:</label>
-                                <input 
-                                  type="number"
-                                  id="quantity"
-                                  class="form-control quantity-box"
-                                  value="1"
-                                  min="1"
-                                />
-                            </div>
-
-                            <h5>Total: $<span id="totalPrice"></span></h5>
-
-                            <button class="btn btn-success mt-3" id="confirmPurchaseBtn">
-                                Confirm Purchase
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- END CHECKOUT CONTENT -->
-
-        <!-- FOOTER -->
-        <footer class="mt-5">
-            <div class="text-center">
-                <strong>Ekram Asif</strong> &copy; All Right reserved
-            </div>
-        </footer>
-        <!-- END FOOTER -->
-
-    </main>
-
-    <!-- JavaScript (Bootstrap + your scripts) -->
-    <script 
-      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuJ/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"></script>
-    <script 
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"></script>
-    <script 
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-      crossorigin="anonymous"></script>
-
-    <script>
-    // 1) Grab query parameters (?product=...&price=...&image=...)
-    const urlParams = new URLSearchParams(window.location.search);
-    const productName = urlParams.get('product') || 'No Product Name';
-    const productPrice = parseFloat(urlParams.get('price')) || 0;
-    const productImage = urlParams.get('image') || '';
-
-    // 2) Populate page
-    document.getElementById('productName').textContent = productName;
-    document.getElementById('productPrice').textContent = productPrice.toFixed(2);
-    document.getElementById('productImage').src = productImage;
-
-    // 3) Update total price when quantity changes
-    const quantityInput = document.getElementById('quantity');
-    const totalPriceSpan = document.getElementById('totalPrice');
-
-    function updateTotal() {
-      const qty = parseInt(quantityInput.value, 10) || 1;
-      totalPriceSpan.textContent = (qty * productPrice).toFixed(2);
+  <script>
+    // A small helper to get query parameters by name
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
     }
 
-    quantityInput.addEventListener('input', updateTotal);
-    updateTotal();
+    // Fetch product data from the query string
+    const title = getQueryParam('title') || 'No Title';
+    const price = parseFloat(getQueryParam('price') || '0');
+    const image = getQueryParam('image') || '';
+    
+    // Populate the fields
+    document.getElementById('productTitle').textContent = title;
+    document.getElementById('productPrice').textContent = price.toFixed(2);
+    document.getElementById('productImage').src = image;
 
-    // 4) Simple confirm purchase example
-    document.getElementById('confirmPurchaseBtn').addEventListener('click', () => {
-      alert('Purchase confirmed for ' + productName + '!');
-    });
-    </script>
+    // Generate a random Trade ID
+    function generateTradeId() {
+      // e.g. 'TID-12345'
+      const randomPart = Math.floor(Math.random() * 100000);
+      return 'TID-' + randomPart;
+    }
+    document.getElementById('tradeId').textContent = generateTradeId();
+
+    // Calculate total = price * quantity
+    const quantityInput = document.getElementById('quantity');
+    const totalPriceElement = document.getElementById('totalPrice');
+    
+    function updateTotal() {
+      const q = parseInt(quantityInput.value, 10) || 1;
+      const total = price * q;
+      totalPriceElement.textContent = total.toFixed(2);
+    }
+    
+    // Update total immediately and whenever quantity changes
+    updateTotal();
+    quantityInput.addEventListener('change', updateTotal);
+  </script>
 </body>
 </html>
